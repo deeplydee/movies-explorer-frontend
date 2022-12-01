@@ -49,9 +49,14 @@
   border-radius: 8px;
 }
 
+.register__data-input-invalid {
+  color: #ff4062;
+}
+
 .register__error {
   margin-top: 8px;
   margin-bottom: 1px;
+  height: 12px;
 
   color: #ff4062;
   font-weight: 400;
@@ -60,11 +65,25 @@
   line-height: 12px;
 }
 
+.register__error-auth {
+  margin-top: 35px;
+  margin-bottom: 20px;
+  height: 13px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+
+  text-align: center;
+
+  color: #ff004c;
+}
+
 .register__form-submit {
   box-sizing: border-box;
   width: 100%;
   height: 45px;
-  margin-top: 68px;
 
   color: #ffffff;
   font-weight: 400;
@@ -78,11 +97,20 @@
   border-radius: 3px;
   cursor: pointer;
 
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .register__form-submit:hover {
-  opacity: .85;
+  opacity: 0.85;
+}
+
+.register__form-submit_disable {
+  color: #000000;
+  background-color: #f8f8f8;
+}
+
+.register__form-submit_disable:hover {
+  cursor: default;
 }
 
 .register__footer {

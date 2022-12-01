@@ -1,16 +1,65 @@
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import isEmail from 'validator/lib/isEmail';
+
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import './Profile.css';
 
-function Profile() {
+function Profile({ onSignOut, onUpdateUser, errorMessage }) {
+  const currentUser = useContext(CurrentUserContext);
+  const { name, email } = currentUser;
+
+  const [newCurrentUserName, setNewCurrentUserName] = useState(name);
+  const [newCurrentUserEmail, setNewCurrentUserEmail] = useState(email);
+
+  useEffect(() => {
+    submitIsValid();
+    setNewCurrentUserName(currentUser.name);
+    setNewCurrentUserEmail(currentUser.email);
+  }, [currentUser, onUpdateUser]);
+
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    watch,
+    reset,
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      name: currentUser.name || currentUser.data.name,
+      email: currentUser.email || currentUser.data.email,
+    },
+  });
+
+  const watchNameInput = watch('name');
+  const watchEmailInput = watch('email');
+
+  const submitIsValid = () => {
+    if (isValid && (watchNameInput !== name || watchEmailInput !== email)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const onSubmit = (data) => {
+    onUpdateUser(data);
+    reset({});
+  };
+
   return (
     <section className="profile">
       <div className="profile__content">
-        <h1 className="profile__title">Привет, Виталий!</h1>
+        <h1 className="profile__title">{`Привет, ${
+          currentUser.name || currentUser.data.name
+        }!`}</h1>
         <form
           className="profile__form"
           name="profile"
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className="profile__content-input profile__content-input_style_border">
             <label
@@ -20,16 +69,35 @@ function Profile() {
               Имя
             </label>
             <input
-              className="profile__data-input profile__data-input_type_profile-name"
+              {...register('name', {
+                required: 'Поле обязательно к заполнению',
+                pattern: {
+                  value: /^[а-яА-ЯёЁa-zA-Z\s-]+$/gi,
+                  message: 'Введите корректное имя',
+                },
+                minLength: {
+                  value: 2,
+                  message: 'Не менее 2 символов',
+                },
+                maxLength: {
+                  value: 30,
+                  message: 'Не более 30 символов',
+                },
+              })}
+              className={
+                errors?.name
+                  ? 'profile__data-input profile__data-input-invalid'
+                  : 'profile__data-input'
+              }
               type="text"
               name="name"
               placeholder="Имя"
               required
               id="profile-name-input"
-              // value={profileData.email || ''}
-              // onChange={handleChange}
             />
-            <span className="profile__error">Что-то пошло не так...</span>
+            <span className="profile__error">
+              {errors?.name && errors?.name?.message}
+            </span>
           </div>
           <div className="profile__content-input">
             <label
@@ -39,21 +107,40 @@ function Profile() {
               E-mail
             </label>
             <input
-              className="profile__data-input profile__data-input_type_profile-email"
+              {...register('email', {
+                required: 'Поле обязательно к заполнению',
+                validate: {
+                  value: (v) => isEmail(v) || 'Введите корректный email',
+                },
+              })}
+              className={
+                errors?.email
+                  ? 'profile__data-input profile__data-input-invalid'
+                  : 'profile__data-input'
+              }
               type="text"
               name="email"
               placeholder="Email"
               required
               id="profile-email-input"
-              // value={profileData.email || ''}
-              // onChange={handleChange}
             />
-            <span className="profile__error">Что-то пошло не так...</span>
+            <span className="profile__error">
+              {errors?.email && errors?.email?.message}
+            </span>
           </div>
-          <button className="profile__form-submit" type="submit">
+          <span className="profile__error-submit">{errorMessage}</span>
+          <button
+            className={
+              submitIsValid()
+                ? 'profile__form-submit'
+                : 'profile__form-submit profile__form-submit_disable'
+            }
+            type="submit"
+            disabled={!submitIsValid()}
+          >
             Редактировать
           </button>
-          <Link to="/sign-in" className="profile__signout">
+          <Link to="/sign-in" className="profile__signout" onClick={onSignOut}>
             Выйти из аккаунта
           </Link>
         </form>

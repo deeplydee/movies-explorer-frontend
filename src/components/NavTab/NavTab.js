@@ -3,15 +3,15 @@ import { Link, NavLink } from 'react-router-dom';
 
 import './NavTab.css';
 
-function NavTab() {
+function NavTab({ loggedIn }) {
   const [navTabActive, setNavTabActive] = useState(false);
 
   return (
     <section className="nav-tab">
-      <div
+      {loggedIn ? (<div
         className={navTabActive ? 'nav-tab__navicon-close' : 'nav-tab__navicon'}
         onClick={() => setNavTabActive(!navTabActive)}
-      ></div>
+      ></div>) : ''}
       <div className={ navTabActive ? "nav-tab__opacity" : ''}></div>
       <div
         className={

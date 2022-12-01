@@ -57,6 +57,21 @@
   opacity: .5;
 }
 
+.search-form__error {
+  display: block;
+  margin-top: 5px;
+  height: 13px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+
+  text-align: center;
+
+  color: #ff004c;
+}
+
 .search-form__wrapper-checkbox {
   display: flex;
   justify-content: center;

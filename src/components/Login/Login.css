@@ -49,9 +49,14 @@
   border-radius: 8px;
 }
 
+.login__data-input-invalid {
+  color: #ff4062;
+}
+
 .login__error {
   margin-top: 8px;
   margin-bottom: 1px;
+  height: 12px;
 
   color: #ff4062;
   font-weight: 400;
@@ -60,11 +65,25 @@
   line-height: 12px;
 }
 
+.login__error-auth {
+  margin-top: 125px;
+  margin-bottom: 20px;
+  height: 13px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+
+  text-align: center;
+
+  color: #ff004c;
+}
+
 .login__form-submit {
   box-sizing: border-box;
   width: 100%;
   height: 45px;
-  margin-top: 157px;
 
   color: #ffffff;
   font-weight: 400;
@@ -83,6 +102,15 @@
 
 .login__form-submit:hover {
   opacity: .85;
+}
+
+.login__form-submit_disable {
+  color: #000000;
+  background-color: #f8f8f8;
+}
+
+.login__form-submit_disable:hover {
+  cursor: default;
 }
 
 .login__footer {
