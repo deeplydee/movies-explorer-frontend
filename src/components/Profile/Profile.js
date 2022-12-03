@@ -7,7 +7,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import './Profile.css';
 
-function Profile({ onSignOut, onUpdateUser, errorMessage }) {
+function Profile({ onSignOut, onUpdateUser, errorInfoText }) {
   const currentUser = useContext(CurrentUserContext);
   const { name, email } = currentUser;
 
@@ -128,7 +128,7 @@ function Profile({ onSignOut, onUpdateUser, errorMessage }) {
               {errors?.email && errors?.email?.message}
             </span>
           </div>
-          <span className="profile__error-submit">{errorMessage}</span>
+          <span className="profile__error-submit">{errorInfoText}</span>
           <button
             className={
               submitIsValid()

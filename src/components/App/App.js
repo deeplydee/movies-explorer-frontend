@@ -70,8 +70,8 @@ function App() {
       localStorage.getItem('changeCheckboxSaveMovies') === 'true'
     );
 
-    if (JSON.parse(localStorage.getItem('foundMovies'))) {
-      setMovies(JSON.parse(localStorage.getItem('foundMovies')));
+    if (JSON.parse(localStorage.getItem('foundMoviesParams'))) {
+      setMovies(JSON.parse(localStorage.getItem('foundMoviesParams')));
     }
   }, []);
 
