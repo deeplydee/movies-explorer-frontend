@@ -29,8 +29,8 @@ function Profile({ onSignOut, onUpdateUser, errorInfoText }) {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      name: currentUser.name || currentUser.data.name,
-      email: currentUser.email || currentUser.data.email,
+      name: currentUser.name,
+      email: currentUser.email,
     },
   });
 
@@ -54,7 +54,7 @@ function Profile({ onSignOut, onUpdateUser, errorInfoText }) {
     <section className="profile">
       <div className="profile__content">
         <h1 className="profile__title">{`Привет, ${
-          currentUser.name || currentUser.data.name
+          currentUser.name
         }!`}</h1>
         <form
           className="profile__form"

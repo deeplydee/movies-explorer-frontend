@@ -63,12 +63,11 @@ function App() {
   useEffect(() => {
     handleGetInfo();
     setRequestKeyword(localStorage.getItem('requestKeyword' || ''));
-    setRequestKeyword(localStorage.getItem('requestKeywordSaveMovies' || ''));
+    // setRequestKeyword(localStorage.getItem('requestKeywordSaveMovies' || ''));
+    setRequestKeywordSaveMovies(localStorage.getItem('requestKeywordSaveMovies' || ''));
 
     setChangeCheckbox(localStorage.getItem('changeCheckbox' || '') === 'true');
-    setChangeCheckboxSaveMovies(
-      localStorage.getItem('changeCheckboxSaveMovies') === 'true'
-    );
+    setChangeCheckboxSaveMovies(localStorage.getItem('changeCheckboxSaveMovies') === 'true');
 
     if (JSON.parse(localStorage.getItem('foundMoviesParams'))) {
       setMovies(JSON.parse(localStorage.getItem('foundMoviesParams')));
@@ -141,7 +140,8 @@ function App() {
     mainApi
       .getUserData()
       .then((data) => {
-        const { email, name, _id } = data.data;
+        // const { email, name, _id } = data.data;
+        const { email, name, _id } = data;
         setCurrentUser({ email, name, _id });
         setLoggedIn(() => {
           localStorage.setItem('loggedIn', true);
@@ -208,17 +208,18 @@ function App() {
     } else {
       handleSearchMoviesParams(allBeatFilmMovies, keyword, changeCheckbox);
     }
-    setRequestKeyword(keyword);
+    setRequestKeyword(keyword); // // //
   };
 
   const handleSearchSubmitSavePage = (searchRequest) => {
-    localStorage.setItem('requestKeywordSaveMovies', searchRequest);
+    // localStorage.setItem('requestKeywordSaveMovies', searchRequest);
     localStorage.setItem('changeCheckboxSaveMovies', changeCheckboxSaveMovies);
     const moviesData = searchMoviesKeyword(
       saveMovies,
       searchRequest,
       changeCheckboxSaveMovies
     );
+    // setRequestKeywordSaveMovies(searchRequest);
     if (moviesData.length === 0) {
       setNotFoundMovies(true);
       setSaveMovies(moviesData);
@@ -274,14 +275,14 @@ function App() {
   const handleShortFilmsSaveMovies = () => {
     if (!changeCheckboxSaveMovies) {
       setChangeCheckboxSaveMovies(true);
-      localStorage.setItem('changeCheckboxSaveMovies', true);
+      // localStorage.setItem('changeCheckboxSaveMovies', true);
       setSaveMovies(searchShortFilms(filterSaveMovies));
       searchShortFilms(filterSaveMovies).length === 0
         ? setNotFoundMovies(true)
         : setNotFoundMovies(false);
     } else {
       setChangeCheckboxSaveMovies(false);
-      localStorage.setItem('changeCheckboxSaveMovies', false);
+      // localStorage.setItem('changeCheckboxSaveMovies', false);
       filterSaveMovies.length === 0
         ? setNotFoundMovies(true)
         : setNotFoundMovies(false);
@@ -305,7 +306,7 @@ function App() {
       }
     } else {
       setMovies(foundMoviesParams);
-      setNotFoundMovies(false);
+      // setNotFoundMovies(false);
     }
     localStorage.setItem('changeCheckbox', !changeCheckbox);
   };
