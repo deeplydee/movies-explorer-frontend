@@ -289,6 +289,7 @@ function App() {
   };
 
   const handleShortFilmsSaveMovies = () => { //поиск короткометражек на saved-movies
+    console.log(changeCheckboxSaveMovies);
     if (!changeCheckboxSaveMovies) {
       setChangeCheckboxSaveMovies(true);
       // localStorage.setItem('changeCheckboxSaveMovies', true);
@@ -312,6 +313,7 @@ function App() {
 
   const handleChangeCheckboxState = () => { //меняем состояние чекбокса на короткометражки
     setChangeCheckbox(!changeCheckbox);
+    console.log(changeCheckbox);
     if (!changeCheckbox) {
       setMovies(searchShortFilms(foundMoviesParams));
       if (foundMoviesParams.length === 0) {

@@ -62,7 +62,7 @@ function SearchForm({ onSubmit, onCheckboxState, checkedState, defaultValue }) {
               className="search-form__data-input search-form__data-input_type_search-form-checkbox"
               type="checkbox"
               id="checkbox"
-              checked={checkedState}
+              checked={!checkedState}
               onChange={onCheckboxState}
             />
             <span className="search-form__text">Короткометражки</span>
