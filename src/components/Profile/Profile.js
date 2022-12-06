@@ -140,7 +140,7 @@ function Profile({ onSignOut, onUpdateUser, errorInfoText }) {
           >
             Редактировать
           </button>
-          <Link to="/sign-in" className="profile__signout" onClick={onSignOut}>
+          <Link to="/" className="profile__signout" onClick={onSignOut}>
             Выйти из аккаунта
           </Link>
         </form>
