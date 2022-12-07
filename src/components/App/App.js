@@ -235,6 +235,7 @@ function App() {
     } else {
       setNotFoundMovies(false);
       setFilterSaveMovies(moviesData);
+      // localStorage.setItem('filterSaveMovies', JSON.stringify(moviesData));
       setSaveMovies(moviesData);
     }
   };
@@ -286,6 +287,12 @@ function App() {
     setMovies(moviesData);
     setFoundMoviesParams(checkbox ? searchShortFilms(moviesData) : moviesData);
     localStorage.setItem('foundMoviesParams', JSON.stringify(moviesData));
+    // checkbox
+    //   ? localStorage.setItem(
+    //       'foundMoviesParams',
+    //       JSON.stringify(searchShortFilms(moviesData))
+    //     )
+    //   : (localStorage.setItem('foundMoviesParams', moviesData));
   };
 
   const handleShortFilmsSaveMovies = () => { //поиск короткометражек на saved-movies
@@ -305,6 +312,9 @@ function App() {
         : setNotFoundMovies(false);
       setSaveMovies(filterSaveMovies);
     }
+    setTimeout(() => {
+      setNotFoundMovies(false);
+    }, 2000);
   };
 
   const searchShortFilms = (movies) => { //поиск короткометражек
