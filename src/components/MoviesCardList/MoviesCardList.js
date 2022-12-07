@@ -4,7 +4,19 @@ import { useLocation } from 'react-router-dom';
 import { useWindowResize } from '../../hooks/useWindowResize';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-import { NOT_FOUND_ERR_MESSAGE, SERVER_ERR_MESSAGE } from '../../utils/constants';
+import {
+  NOT_FOUND_ERR_MESSAGE,
+  SERVER_ERR_MESSAGE,
+  INIT_SINGLE_GRID,
+  INIT_TWO_GRID,
+  INIT_THREE_GRID,
+  MORE_SINGLE_GRID,
+  MORE_TWO_GRID,
+  MORE_THREE_GRID,
+  WIDTH_THREE_GRID,
+  WIDTH_TWO_GRID,
+  WIDTH_SINGLE_GRID,
+} from '../../utils/constants';
 
 import './MoviesCardList.css';
 
@@ -25,17 +37,17 @@ function MoviesCardList({
   const [moreLoadCards, setMoreLoadCards] = useState({});
 
   useEffect(() => {
-    if (windowWidth >= 1280) {
-      setInitCards(12);
-      setMoreLoadCards(3);
+    if (windowWidth >= WIDTH_THREE_GRID) {
+      setInitCards(INIT_THREE_GRID);
+      setMoreLoadCards(MORE_THREE_GRID);
     }
-    if (windowWidth < 1280 && windowWidth >= 960) {
-      setInitCards(8);
-      setMoreLoadCards(2);
+    if (windowWidth < WIDTH_THREE_GRID && windowWidth >= WIDTH_TWO_GRID) {
+      setInitCards(INIT_TWO_GRID);
+      setMoreLoadCards(MORE_TWO_GRID);
     }
-    if (windowWidth < 540) {
-      setInitCards(5);
-      setMoreLoadCards(1);
+    if (windowWidth < WIDTH_SINGLE_GRID) {
+      setInitCards(INIT_SINGLE_GRID);
+      setMoreLoadCards(MORE_SINGLE_GRID);
     }
   }, [windowWidth]);
 
@@ -50,9 +62,7 @@ function MoviesCardList({
           {isNotFoundMovies ? NOT_FOUND_ERR_MESSAGE : ''}
         </span>
         <span className="movies-card-list__error">
-          {isServerTextError
-            ? SERVER_ERR_MESSAGE
-            : ''}
+          {isServerTextError ? SERVER_ERR_MESSAGE : ''}
         </span>
         <ul className="movies-card-list__list">
           {movies.slice(0, initCards).map((movie, i) => {

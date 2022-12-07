@@ -31,16 +31,18 @@ import {
   VALIDATION_ERR_MESSAGE,
   CREDENTIALS_ERR_MESSAGE,
   SUCCESSFUL_UPDATE_MESSAGE,
+  SHORT_FILM_DURATION
 } from '../../utils/constants';
 
 function App() {
   const { pathname } = useLocation();
   const history = useHistory();
+  const location = useLocation();
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [errorInfoText, setErrorInfoText] = useState();
-  const [allBeatFilmMovies, setAllBeatFilmMovies] = useState([]); //все фильмы с BeatFilm
+  const [allBeatFilmMovies, setAllBeatFilmMovies] = useState(JSON.parse(localStorage.getItem('allBeatFilmMovies')) || []); //все фильмы с BeatFilm
   const [movies, setMovies] = useState([]); //найденные фильмы
   const [foundMoviesParams, setFoundMoviesParams] = useState([]); //фильмы по параметрам
   const [saveMovies, setSaveMovies] = useState([]); //сохранённые фильмы
@@ -62,18 +64,45 @@ function App() {
   }, [loggedIn]);
 
   useEffect(() => {
+    const keyword = localStorage.getItem('requestKeyword' || '');
     // handleGetInfo();
-    setRequestKeyword(localStorage.getItem('requestKeyword' || ''));
+    setRequestKeyword(keyword);
     // setRequestKeyword(localStorage.getItem('requestKeywordSaveMovies' || ''));
     setRequestKeywordSaveMovies(localStorage.getItem('requestKeywordSaveMovies' || ''));
 
-    setChangeCheckbox(localStorage.getItem('changeCheckbox' || '') === 'true');
+    const checkBox = localStorage.getItem('changeCheckbox' || '') === 'true';
+    setChangeCheckbox(checkBox);
     setChangeCheckboxSaveMovies(localStorage.getItem('changeCheckboxSaveMovies') === 'true');
 
     if (JSON.parse(localStorage.getItem('foundMoviesParams'))) {
-      setMovies(JSON.parse(localStorage.getItem('foundMoviesParams')));
+      const movies = searchMoviesKeyword(allBeatFilmMovies, keyword, checkBox);
+      setMovies(movies);
+
+      if (movies.length === 0) {
+        setNotFoundMovies(true);
+      } else {
+        setNotFoundMovies(false);
+      }
     }
   }, []);
+
+  useEffect(() => {
+    if (location.pathname === '/saved-movies') {
+      setRequestKeywordSaveMovies('');
+      setChangeCheckboxSaveMovies(false);
+      setNotFoundMovies(false);
+      setSaveMovies(filterSaveMovies);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      setRequestKeywordSaveMovies('');
+      setChangeCheckboxSaveMovies(false);
+      setNotFoundMovies(false);
+      setSaveMovies(filterSaveMovies);
+    }
+  }, [location]);
 
   function handleRegister({ name, email, password }) {
     return mainApi
@@ -163,6 +192,7 @@ function App() {
       .then((data) => {
         setLoggedIn(true);
         setSaveMovies(data);
+        setFilterSaveMovies(data);
       })
       .catch((err) => {
         console.log(err);
@@ -224,17 +254,17 @@ function App() {
     // localStorage.setItem('requestKeywordSaveMovies', searchRequest);
     localStorage.setItem('changeCheckboxSaveMovies', changeCheckboxSaveMovies);
     const moviesData = searchMoviesKeyword(
-      saveMovies,
+      filterSaveMovies,
       searchRequest,
       changeCheckboxSaveMovies
     );
-    // setRequestKeywordSaveMovies(searchRequest);
+    setRequestKeywordSaveMovies(searchRequest);
     if (moviesData.length === 0) {
       setNotFoundMovies(true);
       setSaveMovies(moviesData);
     } else {
       setNotFoundMovies(false);
-      setFilterSaveMovies(moviesData);
+      // setFilterSaveMovies(moviesData);
       // localStorage.setItem('filterSaveMovies', JSON.stringify(moviesData));
       setSaveMovies(moviesData);
     }
@@ -278,7 +308,8 @@ function App() {
   };
 
   const handleSearchMoviesParams = (movies, keyword, checkbox) => { //найти фильмы по параметрам
-    const moviesData = searchMoviesKeyword(movies, keyword, false);
+    const moviesData = searchMoviesKeyword(movies, keyword, checkbox);
+
     if (moviesData.length === 0) {
       setNotFoundMovies(true);
     } else {
@@ -287,12 +318,6 @@ function App() {
     setMovies(moviesData);
     setFoundMoviesParams(checkbox ? searchShortFilms(moviesData) : moviesData);
     localStorage.setItem('foundMoviesParams', JSON.stringify(moviesData));
-    // checkbox
-    //   ? localStorage.setItem(
-    //       'foundMoviesParams',
-    //       JSON.stringify(searchShortFilms(moviesData))
-    //     )
-    //   : (localStorage.setItem('foundMoviesParams', moviesData));
   };
 
   const handleShortFilmsSaveMovies = () => { //поиск короткометражек на saved-movies
@@ -300,8 +325,15 @@ function App() {
     if (!changeCheckboxSaveMovies) {
       setChangeCheckboxSaveMovies(true);
       // localStorage.setItem('changeCheckboxSaveMovies', true);
-      setSaveMovies(searchShortFilms(filterSaveMovies));
-      searchShortFilms(filterSaveMovies).length === 0
+      setSaveMovies(searchShortFilms(saveMovies));
+
+      const movies = searchMoviesKeyword(
+        filterSaveMovies,
+        requestKeywordSaveMovies,
+        !changeCheckboxSaveMovies
+      );
+
+      movies.length === 0
         ? setNotFoundMovies(true)
         : setNotFoundMovies(false);
     } else {
@@ -310,7 +342,11 @@ function App() {
       filterSaveMovies.length === 0
         ? setNotFoundMovies(true)
         : setNotFoundMovies(false);
-      setSaveMovies(filterSaveMovies);
+      setSaveMovies(searchMoviesKeyword(
+        filterSaveMovies,
+        requestKeywordSaveMovies,
+        !changeCheckboxSaveMovies
+      ));
     }
     setTimeout(() => {
       setNotFoundMovies(false);
@@ -318,28 +354,35 @@ function App() {
   };
 
   const searchShortFilms = (movies) => { //поиск короткометражек
-    return movies.filter((movie) => movie.duration <= 40);
+    return movies.filter((movie) => movie.duration <= SHORT_FILM_DURATION);
   };
 
   const handleChangeCheckboxState = () => { //меняем состояние чекбокса на короткометражки
     setChangeCheckbox(!changeCheckbox);
     console.log(changeCheckbox);
     if (!changeCheckbox) {
-      setMovies(searchShortFilms(foundMoviesParams));
-      if (foundMoviesParams.length === 0) {
+      const movies = searchShortFilms(searchMoviesKeyword(allBeatFilmMovies, requestKeyword, true));
+      setMovies(movies);
+      if (movies.length === 0) {
         setNotFoundMovies(true);
-        setTimeout(() => {
-          setNotFoundMovies(false);
-        }, 2000);
+      } else {
+        setNotFoundMovies(false);
       }
     } else {
-      setMovies(foundMoviesParams);
-      // setNotFoundMovies(false);
+      const movies = searchMoviesKeyword(allBeatFilmMovies, requestKeyword, false);
+      setMovies(movies);
+
+      if (movies.length === 0) {
+        setNotFoundMovies(true);
+      } else {
+        setNotFoundMovies(false);
+      }
     }
     localStorage.setItem('changeCheckbox', !changeCheckbox);
   };
 
-  const searchMoviesKeyword = (movies, keyword, checkbox) => { //найти фильмы по ключевому слову
+  const searchMoviesKeyword = (movies, keywordRaw, checkbox) => { //найти фильмы по ключевому слову
+    const keyword = keywordRaw ?? '';
     const foundMoviesKeyword = movies.filter((movie) => {
       return (
         movie.nameEN.toLowerCase().includes(keyword.toLowerCase()) ||
