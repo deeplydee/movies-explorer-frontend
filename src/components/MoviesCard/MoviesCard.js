@@ -62,6 +62,7 @@ function MoviesCard({
               className="movies-card__change-save-image"
               type="button"
               aria-label="Сохранённый фильм"
+              onClick={handleDeleteMovie}
             ></button>
           ) : (
             <button

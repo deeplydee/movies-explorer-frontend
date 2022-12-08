@@ -60,6 +60,10 @@
   cursor: pointer;
 }
 
+.movies-card__change-save-image:hover {
+  background-image: url(/src/images/movie-card-delete.svg);
+}
+
 .movies-card__info {
   display: flex;
   align-items: baseline;
