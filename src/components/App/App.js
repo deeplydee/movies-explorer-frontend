@@ -275,6 +275,7 @@ function App() {
       .addSavedMovie(movie)
       .then((addMovie) => {
         setSaveMovies([addMovie, ...saveMovies]);
+        setFilterSaveMovies([addMovie, ...saveMovies]);
       })
       .catch((err) => {
         console.log(err);
@@ -285,13 +286,16 @@ function App() {
   };
 
   const handleDeleteMovie = (movie) => { //удалить фильм
+    const savedMovie = saveMovies.find((mov) => mov.movieId === movie.id);
+
     mainApi
-      .deleteSavedMovie(movie._id)
+      .deleteSavedMovie(movie._id || savedMovie._id)
       .then((movie) => {
         const updateSaveMovies = saveMovies.filter((i) => movie._id !== i._id);
         // localStorage.setItem('saveMovies', updateSaveMovies);
         localStorage.setItem('saveMovies', JSON.stringify(updateSaveMovies));
         setSaveMovies(updateSaveMovies);
+        setFilterSaveMovies(updateSaveMovies);
       })
       .catch((err) => {
         console.log(err);

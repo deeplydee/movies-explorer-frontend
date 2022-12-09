@@ -65,7 +65,7 @@ function MoviesCardList({
           {isServerTextError ? SERVER_ERR_MESSAGE : ''}
         </span>
         <ul className="movies-card-list__list">
-          {movies.slice(0, initCards).map((movie, i) => {
+          {(pathname === '/movies' ? movies.slice(0, initCards) : movies).map((movie, i) => {
             return (
               <MoviesCard
                 movie={movie}
