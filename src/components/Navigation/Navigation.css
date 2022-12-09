@@ -1,0 +1,140 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 5.46875%;
+}
+
+.navigation__logo {
+  transition: opacity .3s ease;
+}
+
+.navigation__logo:hover {
+  opacity: .7;
+}
+
+.navigation__item {
+  list-style-type: none;
+}
+
+.navigation__link {
+  font-weight: 500;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 16px;
+  text-decoration: none;
+
+  transition: opacity .3s ease;
+}
+
+.navigation__link:hover {
+  opacity: .7;
+}
+
+.navigation__link-signup {
+  color: #000000;
+}
+
+.navigation__link-signin {
+  display: block;
+  width: 76px;
+  padding: 8px 0;
+
+  color: #ffffff;
+  text-align: center;
+
+  background-color: #000000;
+  border-radius: 3px;
+}
+
+.navigation__list {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navigation__list_type_logged-in {
+  display: flex;
+  flex-grow: 1;
+  gap: 15px;
+  margin-left: 45px;
+}
+
+.navigation__link-movies {
+  color: #000000;
+  font-weight: 400;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 18px;
+}
+
+.navigation__link-movies_type_active {
+  font-weight: 500;
+
+  cursor: default;
+}
+
+.active {
+  font-weight: 500;
+
+  cursor: default;
+}
+
+.navigation__link-profile {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.navigation__text {
+  color: #000000;
+  font-weight: 500;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 16px;
+}
+
+.navigation__user-icon {
+  width: 26px;
+  height: 30px;
+
+  background-color: #f9f9f9;
+  background-image: url('../../images/user-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 4px;
+}
+
+@media screen and (max-width: 960px) {
+  .navigation {
+    margin: 0 3.90625%;
+  }
+
+  .navigation__list_type_logged-in {
+    display: none;
+  }
+
+  .navigation__link-profile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .navigation {
+    margin: 0 4.375%;
+  }
+
+  .navigation__list {
+    gap: 14px;
+  }
+
+  .navigation__link {
+    font-size: 10px;
+  }
+
+  .navigation__link-signin {
+    width: 54px;
+    padding: 5px 0;
+  }
+}
