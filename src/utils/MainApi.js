@@ -113,7 +113,7 @@ class MainApi {
 const mainApi = new MainApi({
   // baseUrl: 'https://api.movies.deeplydee.nomoredomains.icu',
   // baseUrl: 'http://localhost:3000',
-  baseUrl: 'https://movies-explorer-api-coral.vercel.app',
+  baseUrl: 'https://movies-explorer-api-nu.vercel.app',
 });
 
 export default mainApi;
