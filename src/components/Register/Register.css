@@ -1,0 +1,190 @@
+.register__wrapper {
+  max-width: 396px;
+  margin: 0 auto;
+}
+
+.register__logo {
+  margin-top: 70px;
+}
+
+.register__title {
+  margin: 0;
+  margin-top: 36px;
+  margin-bottom: 41px;
+
+  color: #000000;
+  font-weight: 500;
+  font-size: 24px;
+  font-style: normal;
+  line-height: 29px;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register__label-input {
+  margin-bottom: 10px;
+
+  color: #a0a0a0;
+  font-weight: 400;
+  font-size: 10px;
+  font-style: normal;
+  line-height: 12px;
+}
+
+.register__data-input {
+  height: 44px;
+  padding-left: 15px;
+
+  color: #000000;
+  font-weight: 500;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 16px;
+
+  background-color: #f9f9f9;
+  border: none;
+  border-radius: 8px;
+}
+
+.register__data-input-invalid {
+  color: #ff4062;
+}
+
+.register__error {
+  margin-top: 8px;
+  margin-bottom: 1px;
+  height: 12px;
+
+  color: #ff4062;
+  font-weight: 400;
+  font-size: 10px;
+  font-style: normal;
+  line-height: 12px;
+}
+
+.register__error-auth {
+  margin-top: 35px;
+  margin-bottom: 20px;
+  height: 13px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+
+  text-align: center;
+
+  color: #ff004c;
+}
+
+.register__form-submit {
+  box-sizing: border-box;
+  width: 100%;
+  height: 45px;
+
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 18px;
+  font-style: normal;
+  line-height: 22px;
+  text-align: center;
+
+  background-color: #000000;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+
+  transition: opacity 0.3s ease;
+}
+
+.register__form-submit:hover {
+  opacity: 0.85;
+}
+
+.register__form-submit_disable {
+  color: #000000;
+  background-color: #f8f8f8;
+}
+
+.register__form-submit_disable:hover {
+  cursor: default;
+}
+
+.register__footer {
+  margin-top: 16px;
+  margin-bottom: 70px;
+
+  color: #a0a0a0;
+  font-weight: 400;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 17px;
+  text-align: center;
+}
+
+.register__link {
+  margin-left: 4px;
+
+  color: #000000;
+  font-weight: 400;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 17px;
+  text-align: center;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 960px) {
+  .register__logo {
+    margin-top: 231px;
+  }
+
+  .register__footer {
+    margin-bottom: 232px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .register__wrapper {
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  .register__logo {
+    display: block;
+    margin: 0 auto;
+    margin-top: 56px;
+  }
+
+  .register__title {
+    margin-top: 50px;
+    margin-bottom: 79px;
+
+    text-align: center;
+  }
+
+  .register__form-submit {
+    margin-top: 157px;
+  }
+
+  .register__form-submit {
+    margin-top: 246px;
+  }
+
+  .register__footer {
+    margin: 0;
+    margin-top: 14px;
+    margin-bottom: 30px;
+
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .register__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
